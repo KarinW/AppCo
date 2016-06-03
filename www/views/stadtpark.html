@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-xs-2">
+        <div class="back">
+            <a href="#/about.html" class="btn btn-default center-block" role="button"> Back </a>
+        </div>
+    </div>
+    <div class="col-xs-10">
+        <h1>Stadtpark Adventure</h1>
+        <div id="test"></div>
+        <div id="test1"></div>
+    </div>
+</div>
+
+<div id='map'></div>
+
+<script>
+// ------- create map ----------------
+L.mapbox.accessToken = 'pk.eyJ1IjoiZWdvbmN4IiwiYSI6ImNpb21udHNzMDAwMHZ2eWtuNDk4bHJxMTcifQ.eRS6szGpDqEe9TT4Wp08YQ';
+var map = L.mapbox.map('map', 'mapbox.streets').setView([47.0666667, 15.45], 15);
+
+// ---------- add markers ---------------
+var marker = L.marker([47.06328162108103, 15.4710191488266], {
+    icon: L.mapbox.marker.icon({
+        'marker-color': 'ff8888'
+    }),
+    draggable: true
+});
+marker.bindPopup('You found this marker');
+marker.addTo(map);
+    
+marker.on('dragend', ondragend);
+
+function ondragend() {
+    var m = marker.getLatLng();
+    document.getElementById('test1').innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
+    
+    if(circle.getBounds().contains(marker.getLatLng())) {
+        document.getElementById('test').innerHTML = "whooop";
+        marker.openPopup();
+    }
+    
+}
+    
+//-------- locate user ---------------
+var user, circle;
+function onLocationFound(e) {
+
+    if(user) {
+        map.removeLayer(user);
+    }
+    user = L.marker(e.latlng);
+    user.addTo(map);
+       
+    var radius = e.accuracy;
+    circle = L.circle(e.latlng, radius);
+    circle.addTo(map);   
+    
+    document.getElementById('test').innerHTML = ""+ circle.getBounds().contains(marker.getLatLng()); 
+    document.getElementById('test1').innerHTML = ""+ marker.getLatLng().lat + " " + marker.getLatLng().lng;
+    
+    if(circle.getBounds().contains(marker.getLatLng())) {
+        document.getElementById('test').innerHTML = "whooop";
+        marker.openPopup();
+    } 
+}
+
+function onLocationError(e) {
+    alert(e.message);
+}
+
+map.on('locationfound', onLocationFound);
+map.on('locationerror', onLocationError);
+
+map.locate({setView: true, 
+            maxZoom: 20,
+           watch: true,
+           enableHighAccuracy: true,
+           maximumAge: 15000,
+           timeout: 3000000});
+    
+
+</script>

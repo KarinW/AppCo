@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-xs-3">
+        <div class="back">
+            <a href="#/" class="btn btn-default center-block" role="button"> Back </a>
+        </div>
+    </div>
+</div>
+
+<div class="app">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Baum-Tagebuch</h1>
+        </div>
+    </div>
+    
+    <br>
+    
+    <div class="row">
+        <div class="col-xs-6">
+            <button id="takePicture">Take Picture</button>
+
+            <img id="img_takePicture" src="" height="150" width="100"/>
+        </div>
+        <div class="col-xs-6">
+            <button id="loadPicture">Load Picture</button>
+
+            <img id="img_loadPicture" src="" height="150" width="100"/>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+   /*----------------------*/
+   document.getElementById("takePicture").addEventListener("click", function(){
+     
+      var options =   {   quality: 50,
+                          destinationType: Camera.DestinationType.DATA_URL,
+                          sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Album
+                          saveToPhotoAlbum: true,
+                          encodingType: 0     // 0=JPG 1=PNG
+                      };
+
+      navigator.camera.getPicture(
+          function cameraSuccess(imgData) {
+              document.getElementById("takePicture").setAttribute('style', 'display:none;');
+              document.getElementById("img_takePicture").setAttribute('style', 'display:inline-block;');
+              document.getElementById("img_takePicture").src = "data:image/jpeg;base64,"+imgData;
+              
+              //movePic(imgData); 
+          },
+          function cameraError(error) {
+              alert('Error taking picture ' + error, 'Error');
+          },
+          options);
+
+      return false;
+    });
+    
+    /*----------------------*/
+    document.getElementById("loadPicture").addEventListener("click", function(){
+     
+        var options =   {   quality: 50,
+                          destinationType: Camera.DestinationType.DATA_URL,
+                          sourceType: 2,      // 0:Photo Library, 1=Camera, 2=Saved Album,
+                          encodingType: 0     // 0=JPG 1=PNG
+                      };
+
+        navigator.camera.getPicture(function cameraSuccess(imageUri) {
+            document.getElementById('loadPicture').setAttribute('style', 'display:none;');
+           document.getElementById("img_loadPicture").setAttribute('style', 'display:inline-block;');
+            document.getElementById("img_loadPicture").src = "data:image/jpeg;base64,"+imageUri;
+             
+            }, function cameraError(error) {
+                console.debug("Unable to obtain picture: " + error, "app");
+
+            }, options);
+        
+        return false;
+    });
+</script>

@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-xs-3">
+        <div class="back">
+            <a href="#/" class="btn btn-default center-block" role="button"> Back </a>
+        </div>
+    </div>
+</div>
+
+<div class="app">
+    <div class="row">
+
+        <h1>MENU</h1>
+
+        <div ng-controller="mainController">
+            <div class="row list-entry" ng-repeat="menu_entry in menu_selection">
+                <a href="#/{{menu_entry.title}}">
+                    <div class="col-xs-3">
+                        <div class="pull-right">
+                            <img src={{menu_entry.image}} height="42px" width="42px"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-9">
+                        <div class="list-text">
+                            <h4>{{menu_entry.title}}</h4>
+                            {{menu_entry.description}}
+                        </div>
+                    </div>
+                 </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--
+<ul class="menu_list">
+    <li ng-repeat="menu_entry in menu_selection">
+        <a href="#/{{menu_entry}}" class="btn btn-default center-block" style="color:#000000" role="button"><img src={{menu_entry.image}} height="42" width="42"/> {{menu_entry.title}}</a>
+    </li>
+</ul>
+
+<div ng-controller="mainController">
+        <div class="media" ng-repeat="menu_entry in menu_selection">
+            <a href="#">
+                <div class="media-left media-middle">
+                      <img class="list-img" src={{menu_entry.image}} height="42px" width="42px"/>
+                </div>
+                <div class="media-body">
+                    <div class="list-text">
+                        <h4 >{{menu_entry.title}}</h4>
+                        {{menu_entry.description}}
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+-->
